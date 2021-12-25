@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { Layout } from 'antd';
-import Header from 'components/Header';
+import './Wrapper.scss';
 
 const { Content } = Layout;
 
@@ -10,8 +10,7 @@ interface Props {
 
 const Wrapper: FC<Props> = ({ children }) => {
     return (
-        <Layout>
-            <Header />
+        <Layout className='layout-container'>
             <Content>{children}</Content>
         </Layout>
     );
