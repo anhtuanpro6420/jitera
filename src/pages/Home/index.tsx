@@ -3,7 +3,8 @@ import { Row, Col } from 'antd';
 
 import UserCard from 'components/UserCard';
 import { IUser } from 'interfaces/user.interface';
-import { getUsers } from '../../apis/user.api';
+import { getUsers } from 'apis/user.api';
+import { deleteUser } from 'utils/user.util';
 
 const Home: FC = () => {
     const [users, setUsers] = useState([] as Array<IUser>);
@@ -17,10 +18,15 @@ const Home: FC = () => {
         fetchUsers();
     }, []);
 
+    const openDeleteConfirm = (userId: number) => {
+        const removedUsers: Array<IUser> = deleteUser(userId, users);
+        setUsers(removedUsers);
+    };
+
     const renderUsers = () => {
         return users.map((user: IUser) => (
             <Col key={user.id} xs={24} sm={24} md={12} lg={6}>
-                <UserCard user={user} />
+                <UserCard user={user} onDelete={openDeleteConfirm} />
             </Col>
         ));
     };

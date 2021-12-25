@@ -1,5 +1,5 @@
-import React, { FC } from 'react';
-import { Card } from 'antd';
+import React, { FC, useState } from 'react';
+import { Card, Popconfirm } from 'antd';
 import {
     DeleteFilled,
     EditOutlined,
@@ -15,10 +15,21 @@ const { Meta } = Card;
 
 interface Props {
     user: IUser;
+    onDelete: (userId: number) => void;
 }
 
-const UserCard: FC<Props> = ({ user }) => {
-    const { name, email, phone, website }: IUser = user || {};
+const UserCard: FC<Props> = ({ user, onDelete }) => {
+    const [isConfirmVisible, setIsConfirmVisible] = useState(false);
+    const { id, name, email, phone, website }: IUser = user || {};
+
+    const confirm = () => {
+        setIsConfirmVisible(false);
+        onDelete(id);
+    };
+
+    const cancel = () => setIsConfirmVisible(false);
+
+    const openDeleteConfirm = () => setIsConfirmVisible(true);
 
     const renderInformation = () => {
         return (
@@ -57,7 +68,16 @@ const UserCard: FC<Props> = ({ user }) => {
             actions={[
                 <HeartOutlined key='favorite' className='favorite-icon' />,
                 <EditOutlined key='edit' />,
-                <DeleteFilled key='delete' />,
+                <Popconfirm
+                    visible={isConfirmVisible}
+                    title='Are you sure to delete this user?'
+                    onConfirm={confirm}
+                    onCancel={cancel}
+                    okText='Yes'
+                    cancelText='No'
+                >
+                    <DeleteFilled key='delete' onClick={openDeleteConfirm} />
+                </Popconfirm>,
             ]}
             bordered
         >
