@@ -1,0 +1,38 @@
+.user-card-container {
+    margin: 15px;
+    .ant-card-cover {
+        display: flex;
+        justify-content: center;
+        background-color: #F5F5F5;
+        border: 1px solid #f0f0f0;
+    }
+    .avatar {
+        width: 40%;
+        @media (min-width: 992px) { 
+            width: 65%;
+        }
+    }
+    .favorite-icon {
+        svg {
+            color: #FF1110;
+        }
+    }
+    .information-container {
+        .info-icon {
+            margin-right: 10px;
+        }
+        .item-container {
+            display: flex;
+            align-items: center;
+            .info-link {
+                text-decoration: none;
+                color: inherit;
+                cursor: pointer;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+    }
+}
+
