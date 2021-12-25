@@ -4,6 +4,7 @@ import {
     DeleteFilled,
     EditOutlined,
     GlobalOutlined,
+    HeartFilled,
     HeartOutlined,
     MailOutlined,
     PhoneOutlined,
@@ -16,11 +17,19 @@ const { Meta } = Card;
 interface Props {
     user: IUser;
     onDelete: (userId: number) => void;
+    onFavorite: (userId: number) => void;
 }
 
-const UserCard: FC<Props> = ({ user, onDelete }) => {
+const UserCard: FC<Props> = ({ user, onDelete, onFavorite }) => {
     const [isConfirmVisible, setIsConfirmVisible] = useState(false);
-    const { id, name, email, phone, website }: IUser = user || {};
+    const {
+        id,
+        name,
+        email,
+        phone,
+        website,
+        isFavorited = false,
+    }: IUser = user || {};
 
     const confirm = () => {
         setIsConfirmVisible(false);
@@ -30,6 +39,22 @@ const UserCard: FC<Props> = ({ user, onDelete }) => {
     const cancel = () => setIsConfirmVisible(false);
 
     const openDeleteConfirm = () => setIsConfirmVisible(true);
+
+    const renderFavorite = () => {
+        return isFavorited ? (
+            <HeartFilled
+                key='favorited'
+                className='favorite-icon'
+                onClick={() => onFavorite(id)}
+            />
+        ) : (
+            <HeartOutlined
+                key='favorite'
+                className='favorite-icon'
+                onClick={() => onFavorite(id)}
+            />
+        );
+    };
 
     const renderInformation = () => {
         return (
@@ -55,6 +80,7 @@ const UserCard: FC<Props> = ({ user, onDelete }) => {
             </div>
         );
     };
+
     return (
         <Card
             className='user-card-container'
@@ -62,11 +88,12 @@ const UserCard: FC<Props> = ({ user, onDelete }) => {
                 <img
                     className='avatar'
                     alt='avatar'
+                    // eslint-disable-next-line max-len
                     src={`https://avatars.dicebear.com/v2/avataaars/${name}.svg?options[mood][]=happy`}
                 />
             }
             actions={[
-                <HeartOutlined key='favorite' className='favorite-icon' />,
+                renderFavorite(),
                 <EditOutlined key='edit' />,
                 <Popconfirm
                     visible={isConfirmVisible}

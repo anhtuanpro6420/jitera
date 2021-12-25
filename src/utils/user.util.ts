@@ -15,4 +15,21 @@ const deleteUser = (
     return cloneUsers;
 };
 
-export { deleteUser };
+const favoriteUser = (
+    deletedId: number,
+    users: Array<IUser> = []
+): Array<IUser> => {
+    const cloneUsers: Array<IUser> = [...users];
+    const userIndex: number = cloneUsers.findIndex(
+        (user: IUser) => user.id === deletedId
+    );
+    const isUserExisted: boolean = userIndex > -1;
+    if (isUserExisted) {
+        const foundUser: IUser = cloneUsers[userIndex];
+        const { isFavorited = false } = foundUser;
+        cloneUsers[userIndex] = { ...foundUser, isFavorited: !isFavorited };
+    }
+    return cloneUsers;
+};
+
+export { deleteUser, favoriteUser };

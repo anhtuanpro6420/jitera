@@ -4,7 +4,7 @@ import { Row, Col } from 'antd';
 import UserCard from 'components/UserCard';
 import { IUser } from 'interfaces/user.interface';
 import { getUsers } from 'apis/user.api';
-import { deleteUser } from 'utils/user.util';
+import { deleteUser, favoriteUser } from 'utils/user.util';
 
 const Home: FC = () => {
     const [users, setUsers] = useState([] as Array<IUser>);
@@ -23,10 +23,19 @@ const Home: FC = () => {
         setUsers(removedUsers);
     };
 
+    const handleFavorite = (userId: number) => {
+        const favoritedUsers: Array<IUser> = favoriteUser(userId, users);
+        setUsers(favoritedUsers);
+    };
+
     const renderUsers = () => {
         return users.map((user: IUser) => (
             <Col key={user.id} xs={24} sm={24} md={12} lg={6}>
-                <UserCard user={user} onDelete={openDeleteConfirm} />
+                <UserCard
+                    user={user}
+                    onDelete={openDeleteConfirm}
+                    onFavorite={handleFavorite}
+                />
             </Col>
         ));
     };
