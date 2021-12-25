@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { Card, Popconfirm } from 'antd';
+import { Card, Modal, Popconfirm } from 'antd';
 import {
     DeleteFilled,
     EditOutlined,
@@ -11,6 +11,7 @@ import {
 } from '@ant-design/icons';
 import { IUser } from 'interfaces/user.interface';
 import './UserCard.scss';
+import UserForm from 'components/UserForm';
 
 const { Meta } = Card;
 
@@ -18,10 +19,12 @@ interface Props {
     user: IUser;
     onDelete: (userId: number) => void;
     onFavorite: (userId: number) => void;
+    onUpdate: (user: IUser) => void;
 }
 
-const UserCard: FC<Props> = ({ user, onDelete, onFavorite }) => {
+const UserCard: FC<Props> = ({ user, onDelete, onFavorite, onUpdate }) => {
     const [isConfirmVisible, setIsConfirmVisible] = useState(false);
+    const [isUpdateVisible, setIsUpdateVisible] = useState(false);
     const {
         id,
         name,
@@ -31,15 +34,27 @@ const UserCard: FC<Props> = ({ user, onDelete, onFavorite }) => {
         isFavorited = false,
     }: IUser = user || {};
 
-    const confirm = () => {
+    // confirmation:
+    const openDeleteConfirm = () => setIsConfirmVisible(true);
+
+    const handleConfirm = () => {
         setIsConfirmVisible(false);
         onDelete(id);
     };
 
-    const cancel = () => setIsConfirmVisible(false);
+    const cancelConfirm = () => setIsConfirmVisible(false);
 
-    const openDeleteConfirm = () => setIsConfirmVisible(true);
+    // updating:
+    const openUpdateModal = () => setIsUpdateVisible(true);
 
+    const handleUpdate = (userObj: IUser) => {
+        setIsUpdateVisible(false);
+        onUpdate({ ...userObj, id });
+    };
+
+    const cancelUpdate = () => setIsUpdateVisible(false);
+
+    // render actions:
     const renderFavorite = () => {
         return isFavorited ? (
             <HeartFilled
@@ -53,6 +68,25 @@ const UserCard: FC<Props> = ({ user, onDelete, onFavorite }) => {
                 className='favorite-icon'
                 onClick={() => onFavorite(id)}
             />
+        );
+    };
+
+    const renderEdit = () => (
+        <EditOutlined key='edit' onClick={openUpdateModal} />
+    );
+
+    const renderDelete = () => {
+        return (
+            <Popconfirm
+                visible={isConfirmVisible}
+                title='Are you sure to delete this user?'
+                onConfirm={handleConfirm}
+                onCancel={cancelConfirm}
+                okText='Yes'
+                cancelText='No'
+            >
+                <DeleteFilled key='delete' onClick={openDeleteConfirm} />
+            </Popconfirm>
         );
     };
 
@@ -92,23 +126,18 @@ const UserCard: FC<Props> = ({ user, onDelete, onFavorite }) => {
                     src={`https://avatars.dicebear.com/v2/avataaars/${name}.svg?options[mood][]=happy`}
                 />
             }
-            actions={[
-                renderFavorite(),
-                <EditOutlined key='edit' />,
-                <Popconfirm
-                    visible={isConfirmVisible}
-                    title='Are you sure to delete this user?'
-                    onConfirm={confirm}
-                    onCancel={cancel}
-                    okText='Yes'
-                    cancelText='No'
-                >
-                    <DeleteFilled key='delete' onClick={openDeleteConfirm} />
-                </Popconfirm>,
-            ]}
+            actions={[renderFavorite(), renderEdit(), renderDelete()]}
             bordered
         >
             <Meta title={name} description={renderInformation()} />
+            <Modal
+                title='Update user'
+                visible={isUpdateVisible}
+                footer={null}
+                onCancel={cancelUpdate}
+            >
+                <UserForm user={user} onUpdate={handleUpdate} />
+            </Modal>
         </Card>
     );
 };

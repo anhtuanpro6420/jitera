@@ -32,4 +32,16 @@ const favoriteUser = (
     return cloneUsers;
 };
 
-export { deleteUser, favoriteUser };
+const updateUser = (updatedUser: IUser, users: Array<IUser> = []) => {
+    const cloneUsers: Array<IUser> = [...users];
+    const userIndex: number = cloneUsers.findIndex(
+        (user: IUser) => user.id === updatedUser.id
+    );
+    const isUserExisted: boolean = userIndex > -1;
+    if (isUserExisted) {
+        cloneUsers[userIndex] = { ...updatedUser };
+    }
+    return cloneUsers;
+};
+
+export { deleteUser, favoriteUser, updateUser };
