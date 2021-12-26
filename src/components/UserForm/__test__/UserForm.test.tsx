@@ -1,6 +1,6 @@
 import React from 'react';
-import '__mocks__/media.mock';
 import { render, screen } from '@testing-library/react';
+import '__mocks__/media.mock';
 import { mockUser, onUpdate } from '__mocks__/user.mock';
 import UserForm from '../index';
 

@@ -32,7 +32,10 @@ const favoriteUser = (
     return cloneUsers;
 };
 
-const updateUser = (updatedUser: IUser, users: Array<IUser> = []) => {
+const updateUser = (
+    updatedUser: IUser,
+    users: Array<IUser> = []
+): Array<IUser> => {
     const cloneUsers: Array<IUser> = [...users];
     const userIndex: number = cloneUsers.findIndex(
         (user: IUser) => user.id === updatedUser.id
