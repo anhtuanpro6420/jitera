@@ -12,7 +12,7 @@ const UserForm: FC<Props> = ({ user, onUpdate }) => {
     const { name, email, phone, website }: IUser = user || {};
 
     const onFinish = (userObj: IUser) => {
-        onUpdate(userObj);
+        onUpdate({ ...user, ...userObj });
     };
 
     return (
