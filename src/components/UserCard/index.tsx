@@ -60,19 +60,25 @@ const UserCard: FC<Props> = ({ user, onDelete, onFavorite, onUpdate }) => {
             <HeartFilled
                 key='favorited'
                 className='favorite-icon'
+                data-testid='favorited-icon'
                 onClick={() => onFavorite(id)}
             />
         ) : (
             <HeartOutlined
                 key='favorite'
                 className='favorite-icon'
+                data-testid='favorite-icon'
                 onClick={() => onFavorite(id)}
             />
         );
     };
 
     const renderEdit = () => (
-        <EditOutlined key='edit' onClick={openUpdateModal} />
+        <EditOutlined
+            key='edit'
+            data-testid='edit-icon'
+            onClick={openUpdateModal}
+        />
     );
 
     const renderDelete = () => {
@@ -85,7 +91,11 @@ const UserCard: FC<Props> = ({ user, onDelete, onFavorite, onUpdate }) => {
                 okText='Yes'
                 cancelText='No'
             >
-                <DeleteFilled key='delete' onClick={openDeleteConfirm} />
+                <DeleteFilled
+                    key='delete'
+                    data-testid='delete-icon'
+                    onClick={openDeleteConfirm}
+                />
             </Popconfirm>
         );
     };
@@ -94,19 +104,28 @@ const UserCard: FC<Props> = ({ user, onDelete, onFavorite, onUpdate }) => {
         return (
             <div className='information-container'>
                 <div className='item-container'>
-                    <MailOutlined className='info-icon' />
+                    <MailOutlined
+                        className='info-icon'
+                        data-testid='email-icon'
+                    />
                     <a className='info-link' href={`mailto:${email}`}>
                         {email}
                     </a>
                 </div>
                 <div className='item-container'>
-                    <PhoneOutlined className='info-icon' />
+                    <PhoneOutlined
+                        className='info-icon'
+                        data-testid='phone-icon'
+                    />
                     <a className='info-link' href={`tel:${phone}`}>
                         {phone}
                     </a>
                 </div>
                 <div className='item-container'>
-                    <GlobalOutlined className='info-icon' />
+                    <GlobalOutlined
+                        className='info-icon'
+                        data-testid='website-icon'
+                    />
                     <a className='info-link' href={`http://${website}`}>
                         {`http://${website}`}
                     </a>
