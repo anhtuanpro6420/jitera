@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { mockUser, onDelete, onFavorite, onUpdate } from '__mocks__/user.mock';
+import { IUser } from 'interfaces/user.interface';
 import UserCard from '../index';
 
 describe('UserCard', () => {
@@ -68,6 +69,20 @@ describe('UserCard', () => {
             );
             const favoriteIcon = screen.getByTestId('favorite-icon');
             expect(favoriteIcon).toBeInTheDocument();
+        });
+
+        test('should render favorited icon', () => {
+            const favoritedUser: IUser = { ...mockUser, isFavorited: true };
+            render(
+                <UserCard
+                    user={favoritedUser}
+                    onDelete={onDelete}
+                    onFavorite={onFavorite}
+                    onUpdate={onUpdate}
+                />
+            );
+            const favoritedIcon = screen.getByTestId('favorited-icon');
+            expect(favoritedIcon).toBeInTheDocument();
         });
 
         test('should render edit icon', () => {
