@@ -154,6 +154,7 @@ const UserCard: FC<Props> = ({ user, onDelete, onFavorite, onUpdate }) => {
                 visible={isUpdateVisible}
                 footer={null}
                 onCancel={cancelUpdate}
+                destroyOnClose
             >
                 <UserForm user={user} onUpdate={handleUpdate} />
             </Modal>
