@@ -28,7 +28,7 @@ const UserForm: FC<Props> = ({ user, onUpdate }) => {
                 name='name'
                 rules={[{ required: true, message: 'Please input your name!' }]}
             >
-                <Input />
+                <Input data-testid='name-input' />
             </Form.Item>
 
             <Form.Item
@@ -42,7 +42,7 @@ const UserForm: FC<Props> = ({ user, onUpdate }) => {
                     },
                 ]}
             >
-                <Input />
+                <Input data-testid='email-input' />
             </Form.Item>
 
             <Form.Item
@@ -55,7 +55,7 @@ const UserForm: FC<Props> = ({ user, onUpdate }) => {
                     },
                 ]}
             >
-                <Input />
+                <Input data-testid='phone-input' />
             </Form.Item>
 
             <Form.Item
@@ -65,11 +65,15 @@ const UserForm: FC<Props> = ({ user, onUpdate }) => {
                     { required: true, message: 'Please input your website!' },
                 ]}
             >
-                <Input />
+                <Input data-testid='website-input' />
             </Form.Item>
 
             <Form.Item className='button-container'>
-                <Button type='primary' htmlType='submit'>
+                <Button
+                    type='primary'
+                    htmlType='submit'
+                    data-testid='update-button'
+                >
                     Update
                 </Button>
             </Form.Item>
